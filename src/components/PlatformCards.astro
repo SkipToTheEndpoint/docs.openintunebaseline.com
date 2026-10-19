@@ -1,0 +1,16 @@
+---
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import { getPlatforms } from '../lib/platforms.mjs';
+
+const platforms = (await getPlatforms()).filter((p) => p.visibility !== 'hidden');
+---
+
+<CardGrid>
+	{
+		platforms.map((p) => (
+			<Card title={p.badge ? `${p.name} (${p.badge.text})` : p.name} icon="laptop">
+				<a href={`/platforms/${p.id}/`}>Read the {p.name} documentation</a>
+			</Card>
+		))
+	}
+</CardGrid>

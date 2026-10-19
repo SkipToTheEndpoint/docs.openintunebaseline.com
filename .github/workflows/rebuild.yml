@@ -1,0 +1,21 @@
+name: Scheduled rebuild
+
+# The site reads releases.json from the main OIB repo at build time. Rebuild nightly so platform
+# visibility and release tables stay current without needing a cross-repo trigger.
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        env:
+          DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$DEPLOY_HOOK" ]; then
+            echo "CLOUDFLARE_PAGES_DEPLOY_HOOK is not set"; exit 1
+          fi
+          curl --fail --silent --show-error -X POST "$DEPLOY_HOOK"
