@@ -13,8 +13,8 @@ npm run build    # production build + internal link validation
 npm run check:freshness
 ```
 
-Node 22.22.0 or newer is required. The repository's `.nvmrc` pins the minimum
-version required by the current Astro toolchain.
+Node 24 is required. The repository's `.nvmrc` pins the supported LTS version
+used by the current Astro toolchain.
 
 ## Release-aware visibility
 
@@ -55,7 +55,7 @@ lastReviewed: 2026-10-19
 
 Use the Cloudflare Pages Git integration:
 
-- Build command: `npm run build`, output directory: `dist`, Node 22.22.0 or newer
+- Build command: `npm run build`, output directory: `dist`, Node 24
 - Custom domain: `docs.openintunebaseline.com`
 - Preview environment variable: `OIB_SHOW_HIDDEN=true` (leave unset for production)
 - Create a deploy hook and store it as the `CLOUDFLARE_PAGES_DEPLOY_HOOK` repo secret. `.github/workflows/rebuild.yml` triggers it nightly so release changes in the main repo are picked up.
