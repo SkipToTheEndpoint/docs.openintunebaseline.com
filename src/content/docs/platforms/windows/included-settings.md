@@ -29,7 +29,7 @@ Almost all policies are Settings Catalog-backed and will show in **Devices > Con
 - Windows Hello for Business
 - Windows LAPS
 
-For a complete list of settings, see the [settings reference](/reference/settings/), which includes a searchable view of the baseline on [intunesettings.app](https://intunesettings.app/baseline/), and [SETTINGSOUTPUT.md](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS/SETTINGSOUTPUT.md) in the repo. The full policy changelog is in [CHANGELOG.md](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS/CHANGELOG.md).
+For a complete list of settings, see the [settings reference](/reference/settings/), which includes a searchable view of the baseline on [intunesettings.app](https://intunesettings.app/baseline/), and [SETTINGSOUTPUT.md](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS/SETTINGSOUTPUT.md) in the repo. The [policy list](/platforms/windows/policies/) lists every policy in the baseline. The full policy changelog is in [CHANGELOG.md](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS/CHANGELOG.md).
 
 ## Known limitations
 

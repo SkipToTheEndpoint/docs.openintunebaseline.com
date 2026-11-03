@@ -1,0 +1,96 @@
+---
+import { getPolicyManifest } from '../lib/platforms.mjs';
+
+interface Props {
+	platform: string;
+}
+
+const { platform } = Astro.props;
+const manifest = await getPolicyManifest(platform);
+if (!manifest) {
+	throw new Error(`PolicyTable: no PolicyManifest.json found for platform "${platform}"`);
+}
+
+const byTypeThenName = (a, b) => a.policyType.localeCompare(b.policyType) || a.name.localeCompare(b.name);
+const active = manifest.policies.filter((p) => p.status === 'active').sort(byTypeThenName);
+const other = manifest.policies.filter((p) => p.status !== 'active').sort(byTypeThenName);
+
+const requirements = (p) => [p.skuRequirements, p.licenseRequirements].filter(Boolean).join(', ');
+
+// supersededBy holds OIBIDs; show the policy name where the replacement is in the same manifest.
+const nameById = new Map(manifest.policies.map((p) => [p.oibId, p.name]));
+const supersededBy = (p) => (p.supersededBy ?? []).map((id) => nameById.get(id) ?? id);
+---
+
+<p>
+	Generated from <code>{manifest.platform}/PolicyManifest.json</code> for OIB v{manifest.oibVersion} (manifest dated {
+		manifest.generatedDate
+	}).
+</p>
+
+<h2 id="active-policies">Active policies ({active.length})</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Policy</th>
+			<th>Type</th>
+			<th>Scope</th>
+			<th>Added in</th>
+			<th>Requirements</th>
+			<th>OIBID</th>
+		</tr>
+	</thead>
+	<tbody>
+		{
+			active.map((p) => (
+				<tr>
+					<td>{p.name}</td>
+					<td>{p.policyType}</td>
+					<td>{p.scope}</td>
+					<td>{p.addedIn}</td>
+					<td>{requirements(p)}</td>
+					<td>
+						<code>{p.oibId}</code>
+					</td>
+				</tr>
+			))
+		}
+	</tbody>
+</table>
+
+{
+	other.length > 0 && (
+		<>
+			<h2 id="deprecated-policies">Deprecated policies ({other.length})</h2>
+			<p>These policies are no longer part of the baseline. Where one has been replaced, the replacement is listed.</p>
+			<table>
+				<thead>
+					<tr>
+						<th>Policy</th>
+						<th>Type</th>
+						<th>Status</th>
+						<th>Superseded by</th>
+						<th>OIBID</th>
+					</tr>
+				</thead>
+				<tbody>
+					{other.map((p) => (
+						<tr>
+							<td>{p.name}</td>
+							<td>{p.policyType}</td>
+							<td>{p.status}</td>
+							<td>
+								{supersededBy(p).map((name) => (
+									<div>{name}</div>
+								))}
+							</td>
+							<td>
+								<code>{p.oibId}</code>
+							</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</>
+	)
+}

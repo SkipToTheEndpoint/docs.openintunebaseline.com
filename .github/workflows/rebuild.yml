@@ -1,7 +1,8 @@
 name: Scheduled rebuild
 
-# The site reads releases.json from the main OIB repo at build time. Rebuild nightly so platform
-# visibility and release tables stay current without needing a cross-repo trigger.
+# The site reads releases.json and the PolicyManifest.json files from the main OIB repo at build time.
+# The main repo triggers a deploy when those change (see .github/workflows/notify-docs.yml there);
+# this nightly rebuild is the fallback if that trigger is missed.
 on:
   schedule:
     - cron: '0 3 * * *'

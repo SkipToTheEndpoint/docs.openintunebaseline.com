@@ -1,0 +1,13 @@
+---
+title: Windows policy list
+description: Every policy in the Windows baseline, generated from the policy manifest.
+sidebar:
+  label: Policy list
+  order: 8
+---
+
+import PolicyTable from '../../../../components/PolicyTable.astro';
+
+This page is generated at build time from the Windows [PolicyManifest.json](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS/PolicyManifest.json). For what changed in each release, see the [changelog](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS/CHANGELOG.md), and for how OIBIDs are used, see [Updating an existing deployment](/getting-started/updating/#oibids-and-the-policy-manifest).
+
+<PolicyTable platform="windows" />

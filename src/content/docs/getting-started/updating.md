@@ -15,7 +15,7 @@ OIBID tracking and the `PolicyManifest.json` file are currently a work in progre
 
 ## What changed in a release
 
-1. Read the platform's changelog ([Windows](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS/CHANGELOG.md), [macOS](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/MACOS/CHANGELOG.md), [Windows 365](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS365/CHANGELOG.md)). It lists every added, changed and removed policy and setting.
+1. Read the platform's changelog ([Windows](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS/CHANGELOG.md), [macOS](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/MACOS/CHANGELOG.md), [Windows 365](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/WINDOWS365/CHANGELOG.md), [BYOD](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/BYOD/CHANGELOG.md)). It lists every added, changed and removed policy and setting.
 2. Compare the **policy version** in your tenant to the version in the repo. The `vX.Y` suffix in the policy name changes when the policy changes.
 3. Review the change against any customisation you have made before updating anything.
 

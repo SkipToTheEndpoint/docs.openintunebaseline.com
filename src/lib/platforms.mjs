@@ -1,31 +1,43 @@
 import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 
 const DEFAULT_RELEASES_URL =
 	'https://raw.githubusercontent.com/SkipToTheEndpoint/OpenIntuneBaseline/main/releases.json';
 
 /**
- * Loads releases.json from the main OpenIntuneBaseline repo.
+ * Loads a JSON file from the main OpenIntuneBaseline repo. `relativePath` is relative to the repo root.
  *
- * Resolution order:
- *  1. OIB_RELEASES_PATH - local file (local development against a clone)
- *  2. OIB_RELEASES_URL  - override URL
+ * Resolution is anchored on where releases.json comes from, so releases.json and the policy manifests
+ * always come from the same place:
+ *  1. OIB_RELEASES_PATH - local releases.json (local development against a clone)
+ *  2. OIB_RELEASES_URL  - override URL of releases.json
  *  3. The default raw.githubusercontent.com URL on the main branch
  *
- * The build fails if none can be read, so unreleased platforms are never published by accident.
+ * Returns null on a missing file (HTTP 404 or ENOENT) if `optional` is set; any other failure throws.
  */
-async function loadReleases() {
+async function loadRepoJson(relativePath, { optional = false } = {}) {
 	const localPath = process.env.OIB_RELEASES_PATH;
 	if (localPath) {
-		return JSON.parse(await readFile(localPath, 'utf8'));
+		try {
+			return JSON.parse(await readFile(join(dirname(localPath), relativePath), 'utf8'));
+		} catch (error) {
+			if (optional && error.code === 'ENOENT') return null;
+			throw error;
+		}
 	}
 
-	const url = process.env.OIB_RELEASES_URL || DEFAULT_RELEASES_URL;
+	const releasesUrl = process.env.OIB_RELEASES_URL || DEFAULT_RELEASES_URL;
+	const url = new URL(relativePath, releasesUrl).href;
 	const response = await fetch(url);
+	if (optional && response.status === 404) return null;
 	if (!response.ok) {
-		throw new Error(`Unable to load releases.json from ${url} (HTTP ${response.status})`);
+		throw new Error(`Unable to load ${relativePath} from ${url} (HTTP ${response.status})`);
 	}
 	return response.json();
 }
+
+/** The build fails if releases.json can't be read, so unreleased platforms are never published by accident. */
+const loadReleases = () => loadRepoJson('releases.json');
 
 /**
  * Visibility states:
@@ -66,12 +78,25 @@ export async function getPlatforms() {
 		return {
 			id: platform.id,
 			name: platform.name,
+			folder: platform.folder,
 			visibility,
 			badge: badgeByVisibility[visibility],
 			latestVersion: latestGA(platform.releases ?? [])?.version,
 			releases: platform.releases ?? [],
 		};
 	});
+}
+
+/**
+ * Loads `<folder>/PolicyManifest.json` for a platform id. Returns null if the platform has no manifest
+ * (OIBID tracking doesn't exist for every platform yet).
+ */
+export async function getPolicyManifest(platformId) {
+	const platform = (await getPlatforms()).find((p) => p.id === platformId);
+	if (!platform?.folder) {
+		throw new Error(`Unknown platform "${platformId}" (not found in releases.json)`);
+	}
+	return loadRepoJson(`${platform.folder}/PolicyManifest.json`, { optional: true });
 }
 
 /** Platform content folders (under src/content/docs/platforms) that must not be built. */

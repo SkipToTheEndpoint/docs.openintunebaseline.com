@@ -1,0 +1,13 @@
+---
+title: BYOD policy list
+description: Every policy in the BYOD baseline, generated from the policy manifest.
+sidebar:
+  label: Policy list
+  order: 3
+---
+
+import PolicyTable from '../../../../components/PolicyTable.astro';
+
+This page is generated at build time from the BYOD [PolicyManifest.json](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/BYOD/PolicyManifest.json). For what changed in each release, see the [changelog](https://github.com/SkipToTheEndpoint/OpenIntuneBaseline/blob/main/BYOD/CHANGELOG.md), and for how OIBIDs are used, see [Updating an existing deployment](/getting-started/updating/#oibids-and-the-policy-manifest).
+
+<PolicyTable platform="byod" />
