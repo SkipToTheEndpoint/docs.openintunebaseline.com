@@ -26,6 +26,29 @@ export default defineConfig({
 			description:
 				'Documentation for the OpenIntuneBaseline - a community-driven, known-good security baseline for Microsoft Intune.',
 			favicon: '/favicon.svg',
+			logo: { src: './src/assets/logo.svg', alt: '' },
+			customCss: ['./src/styles/oib.css'],
+			components: { SocialIcons: './src/components/SocialIcons.astro' },
+			head: [
+				{ tag: 'meta', attrs: { name: 'theme-color', content: '#0078d4' } },
+				{ tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/favicon.svg' } },
+				{
+					tag: 'meta',
+					attrs: {
+						property: 'og:image',
+						content:
+							'https://repository-images.githubusercontent.com/493403016/52215ef7-95a7-4b8c-98b0-3dd33f0144e3',
+					},
+				},
+				{
+					tag: 'meta',
+					attrs: {
+						name: 'twitter:image',
+						content:
+							'https://repository-images.githubusercontent.com/493403016/52215ef7-95a7-4b8c-98b0-3dd33f0144e3',
+					},
+				},
+			],
 			social: [
 				{
 					icon: 'github',

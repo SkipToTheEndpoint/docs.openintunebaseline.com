@@ -41,10 +41,10 @@ A platform that is in development and has no release yet is not published on thi
 
 ## Policy tracking (OIBIDs)
 
-From Windows v3.8, every policy has a tracking GUID, the **OIBID**, appended to its `description` in the format `OIBID:<UUID>`. It is tracked in the platform's `PolicyManifest.json` and lets tools reliably identify existing OIB policies without depending on the policy name.
+From Windows v3.8, every policy has a tracking GUID, the **OIBID**, appended to its `description` in the format `OIBID:<UUID>`. It is tracked in the platform's `PolicyManifest.json` and lets tools such as [OIB Deployer](https://deploy.openintunebaseline.com/) and [TenuVault](https://www.tenuvault.com/) reliably identify existing OIB policies without depending on the policy name.
 
 :::danger[Do not remove or edit the OIBID]
 Removing or editing the `OIBID:` token breaks version tracking for that policy.
 :::
 
-See [Updating an existing deployment](/getting-started/updating/) for how this is used.
+See [Updating an existing deployment](/getting-started/updating/#oibids-and-the-policy-manifest) for how this is used.

@@ -9,8 +9,8 @@ lastReviewed: 2026-10-19
 
 The OIB is a starting point, and new releases will change policies, add new ones and deprecate others. There is no requirement to re-deploy the whole baseline whenever a new version is released, and you should never blindly overwrite policies you have customised.
 
-:::note[Windows only, for now]
-OIBID tracking and the `PolicyManifest.json` file currently exist for **Windows** (from v3.8) and the **BYOD** App Protection policies. Other platforms don't have a manifest yet.
+:::note[Work In Progress]
+OIBID tracking and the `PolicyManifest.json` file are currently a work in progress and might not exist for every platform.
 :::
 
 ## What changed in a release
@@ -42,10 +42,10 @@ Removing or editing the `OIBID:` token in a description breaks version tracking 
 
 There is no single required method. Depending on your tooling:
 
-- **OIB Deployer** - the [OIB Deployer](https://deploy.openintunebaseline.com/) can check for existing OIB policies in your tenant and highlight missing or updated policies.
-- **IntuneManagement** - the import has an **Update** option, which is a preview feature in that tool. See the [IntuneManagement](https://github.com/Micke-K/IntuneManagement) documentation.
-- **TenuVault** - its [Existing Deployment](https://docs.tenuvault.com/baselines/quick-start/) workflow compares the OIB policies in your tenant with a selected OIB version, matching on the OIBID first, and can deploy missing or outdated policies. Some features, such as updating policies in place, require a paid plan.
-- **Manually** - import the new version of a policy, move your assignments across, and retire the old one. You can also add the OIBID to an existing policy's `description` by hand, so tools can match it.
+- **OIB Deployer** - The [OIB Deployer](https://deploy.openintunebaseline.com/) can check for existing OIB policies in your tenant and highlight missing or updated policies.
+- **TenuVault** - Its [Existing Deployment](https://docs.tenuvault.com/baselines/quick-start/) workflow compares the OIB policies in your tenant with a selected OIB version, matching on the OIBID first, and can deploy missing or outdated policies. Some features, such as updating policies in place, require a paid plan.
+- **IntuneManagement** - The import has an **Update** option, which is a preview feature in that tool. See the [IntuneManagement](https://github.com/Micke-K/IntuneManagement) documentation.
+- **Manually** - Import the new version of a policy, move your assignments across, and retire the old one. You can also add the OIBID to an existing policy's `description` by hand, so tools can match it.
 
 :::caution
 Whichever method you use, test updates in a pilot group first, and re-apply any customisations you had made to the previous version.

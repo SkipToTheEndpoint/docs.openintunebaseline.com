@@ -1,16 +1,123 @@
 ---
-import { Card, CardGrid } from '@astrojs/starlight/components';
 import { getPlatforms } from '../lib/platforms.mjs';
 
 const platforms = (await getPlatforms()).filter((p) => p.visibility !== 'hidden');
+
+// Lucide icon bodies (https://lucide.dev), matching the icon style on openintunebaseline.com
+const icons: Record<string, string> = {
+	windows:
+		'<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+	windows365: '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+	macos:
+		'<path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/>',
+	ios: '<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>',
+	android: '<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>',
+	byod: '<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+};
 ---
 
-<CardGrid>
+<div class="platform-grid">
 	{
 		platforms.map((p) => (
-			<Card title={p.badge ? `${p.name} (${p.badge.text})` : p.name} icon="laptop">
-				<a href={`/platforms/${p.id}/`}>Read the {p.name} documentation</a>
-			</Card>
+			<a class="platform-card" href={`/platforms/${p.id}/`}>
+				<span class="platform-icon">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="28"
+						height="28"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+						set:html={icons[p.id] ?? icons.windows}
+					/>
+				</span>
+				<span class="platform-name">
+					{p.name}
+					{p.badge && <span class="platform-badge">{p.badge.text}</span>}
+				</span>
+				<span class="platform-desc">Read the {p.name} documentation</span>
+			</a>
 		))
 	}
-</CardGrid>
+</div>
+
+<style>
+	.platform-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+		gap: 1.25rem;
+		margin-top: 1.5rem;
+	}
+	.platform-card {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+		padding: 1.5rem;
+		background: var(--sl-color-gray-7);
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 12px;
+		text-decoration: none;
+		position: relative;
+		overflow: hidden;
+		transition: all 0.3s;
+	}
+	.platform-card::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto 0;
+		height: 4px;
+		background: linear-gradient(135deg, var(--sl-color-accent) 0%, var(--sl-color-accent-high) 100%);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.3s;
+	}
+	.platform-card:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 16px 32px #0000002e;
+		background: var(--sl-color-black);
+	}
+	.platform-card:hover::before {
+		transform: scaleX(1);
+	}
+	.platform-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 56px;
+		height: 56px;
+		margin-bottom: 0.5rem;
+		border-radius: 16px;
+		background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
+		color: #fff;
+		transition: all 0.3s;
+	}
+	.platform-card:hover .platform-icon {
+		transform: scale(1.08);
+		box-shadow: 0 8px 20px #0078d44d;
+	}
+	.platform-name {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--sl-color-white);
+		font-size: var(--sl-text-xl);
+		font-weight: 700;
+	}
+	.platform-badge {
+		padding: 0.1rem 0.5rem;
+		border-radius: 999px;
+		background: var(--sl-color-accent-low);
+		color: var(--sl-color-text-accent);
+		font-size: var(--sl-text-xs);
+		font-weight: 600;
+	}
+	.platform-desc {
+		color: var(--sl-color-gray-3);
+		font-size: var(--sl-text-sm);
+	}
+</style>

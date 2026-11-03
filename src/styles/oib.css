@@ -1,0 +1,158 @@
+/*
+ * Visual theme aligned with https://openintunebaseline.com/
+ * Palette, font stack, gradients and radii are taken from the main site's stylesheet.
+ */
+
+:root {
+	--oib-accent-gradient: linear-gradient(135deg, var(--sl-color-accent) 0%, var(--oib-accent-secondary) 100%);
+	--oib-shadow-medium: #0000001a;
+	--oib-radius-card: 12px;
+	/* Fluid content width: grows with the viewport, bounded by a readable minimum and maximum */
+	--sl-content-width: clamp(45rem, calc(100vw - 2 * var(--sl-sidebar-width) - 4rem), 100rem);
+	--sl-content-pad-x: clamp(1rem, 2vw, 2.5rem);
+	--sl-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Dark is Starlight's default; the main site's dark palette */
+:root,
+:root[data-theme='dark'] {
+	--oib-accent-secondary: #66b3ff;
+	--sl-color-accent-low: #0f2f4a;
+	--sl-color-accent: #4da3e0;
+	--sl-color-accent-high: #66b3ff;
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #f0f0f0;
+	--sl-color-gray-2: #e0e0e0;
+	--sl-color-gray-3: #b3b3b3;
+	--sl-color-gray-4: #808080;
+	--sl-color-gray-5: #404040;
+	--sl-color-gray-6: #2d2d2d;
+	--sl-color-gray-7: #232323;
+	--sl-color-black: #1a1a1a;
+	--sl-color-bg-nav: #1a1a1af2;
+	--oib-shadow-medium: #0000004d;
+}
+
+:root[data-theme='light'] {
+	--oib-accent-secondary: #106ebe;
+	--sl-color-accent-low: #cfe6f7;
+	--sl-color-accent: #0078d4;
+	--sl-color-accent-high: #005a9e;
+	--sl-color-white: #1a1a1a;
+	--sl-color-gray-1: #1a1a1a;
+	--sl-color-gray-2: #333333;
+	--sl-color-gray-3: #666666;
+	--sl-color-gray-4: #8a8a8a;
+	--sl-color-gray-5: #e5e5e5;
+	--sl-color-gray-6: #e9ecef;
+	--sl-color-gray-7: #f8f9fa;
+	--sl-color-black: #ffffff;
+	--sl-color-bg-nav: #fffffff2;
+	--sl-color-bg-sidebar: #f8f9fa;
+	--oib-shadow-medium: #0000001a;
+}
+
+/* Pages without a sidebar (splash) default to a fixed 67.5rem; make that fluid too */
+:root:not([data-has-sidebar]) {
+	--sl-content-width: clamp(67.5rem, calc(100vw - 4rem), 100rem);
+}
+
+/* Header: translucent with blur, like the main site */
+header.header {
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+}
+
+/* Logo and gradient wordmark */
+.site-title {
+	gap: 12px;
+	font-weight: 700;
+}
+.site-title img {
+	border-radius: 50%;
+	transition: transform 0.3s;
+}
+.site-title:hover img {
+	transform: rotate(5deg);
+}
+.site-title span {
+	background: var(--oib-accent-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-weight: 700;
+}
+
+/* Primary buttons */
+.sl-link-button.primary {
+	background: var(--oib-accent-gradient);
+	border-color: transparent;
+	border-radius: 6px;
+	color: #fff;
+	font-weight: 600;
+	transition: all 0.3s;
+}
+.sl-link-button.primary:hover {
+	background: linear-gradient(135deg, var(--oib-accent-secondary) 0%, #005a9e 100%);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px #0078d44d;
+}
+.sl-link-button.secondary,
+.sl-link-button.minimal {
+	border-radius: 6px;
+	font-weight: 600;
+	transition: all 0.3s;
+}
+.sl-link-button.secondary {
+	border-width: 2px;
+	border-color: var(--sl-color-accent);
+	color: var(--sl-color-accent);
+}
+.sl-link-button.secondary:hover {
+	background: var(--sl-color-accent);
+	color: #fff;
+	transform: translateY(-2px);
+}
+
+/* Splash hero: same gradient background and highlighted title as the main site */
+[data-has-hero] .hero h1 {
+	background: var(--oib-accent-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-weight: 800;
+}
+[data-has-hero] .page {
+	background: linear-gradient(135deg, var(--sl-color-gray-7) 0%, var(--sl-color-gray-6) 100%);
+}
+:root[data-theme='dark'] [data-has-hero] .page {
+	background: linear-gradient(135deg, #2d2d2d 0%, #404040 100%);
+}
+[data-has-hero] .hero .tagline {
+	color: var(--sl-color-gray-3);
+}
+
+/* Cards (Starlight Card and the custom platform cards) */
+.starlight-aside {
+	border-radius: 8px;
+}
+.sl-markdown-content .card {
+	border-radius: var(--oib-radius-card);
+	transition: all 0.3s;
+}
+.sl-markdown-content .card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 8px 25px var(--oib-shadow-medium);
+}
+
+/* Tighter table cells so wide tables fit without horizontal scrolling more often */
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+	padding-inline: 0.4rem;
+}
+
+/* Sidebar current page */
+.sidebar-content a[aria-current='page'] {
+	background: var(--sl-color-accent);
+	color: #fff;
+}
