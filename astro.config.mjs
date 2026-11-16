@@ -9,8 +9,8 @@ const platforms = await getPlatforms();
 
 // One sidebar group per platform that is visible (public, beta, or preview). Hidden platforms are omitted.
 const platformGroups = platforms
-	.filter((p) => p.visibility !== 'hidden')
-	.map((p) => ({
+	.filter((/** @type {any} */ p) => p.visibility !== 'hidden')
+	.map((/** @type {any} */ p) => ({
 		label: p.name,
 		badge: p.badge,
 		collapsed: true,
@@ -32,6 +32,12 @@ export default defineConfig({
 			head: [
 				{ tag: 'meta', attrs: { name: 'theme-color', content: '#0078d4' } },
 				{ tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/favicon.svg' } },
+				{ tag: 'script', attrs: { async: true, src: '/_r7k/script.js' } },
+				{
+					tag: 'script',
+					content:
+						'window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init({endpoint:"/_r7k/event"})',
+				},
 				{
 					tag: 'meta',
 					attrs: {
