@@ -58,7 +58,7 @@ Use the Cloudflare Pages Git integration:
 - Build command: `npm run build`, output directory: `dist`. The Node version comes from `.nvmrc` (Cloudflare's v3 build image defaults to Node 22 but supports any version via `.nvmrc` or the `NODE_VERSION` variable)
 - Custom domain: `docs.openintunebaseline.com`
 - Preview environment variable: `OIB_SHOW_HIDDEN=true` (leave unset for production)
-- Create a deploy hook and store it as the `CLOUDFLARE_PAGES_DEPLOY_HOOK` repo secret. `.github/workflows/rebuild.yml` triggers it nightly so release changes in the main repo are picked up.
+- Create a deploy hook and store it as the `CLOUDFLARE_PAGES_DEPLOY_HOOK` secret in the main OpenIntuneBaseline repo. Its `notify-docs.yml` workflow triggers the hook when `releases.json` or a `PolicyManifest.json` changes, so release changes are picked up.
 
 ## Authoring notes
 
